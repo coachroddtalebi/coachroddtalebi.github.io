@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home</title>
+    <meta http-equiv="description" content="Description of this page" />
+
+    <!-- Required meta tags -->
+    <!--To ensure proper rendering and touch zooming for all devices, add the responsive viewport meta tag-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <!--keep the boostrap css first in CSS list-->
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/5dc3709a8c.js"></script>
+
+    <!-- Read in Nav + Footer js -->
+    <script>
+    $(function(){
+      $("#nav-placeholder").load("navbar.html");
+      $("#footer-placeholder").load("footer.html") });
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+      /* for the banner image + text */
+      #banner{
+        position:relative;
+        padding:0px; }
+      img {
+        vertical-align:top;
+        display:block;
+        margin: 0 auto;
+        max-width:70%; }
+      #bannerText{
+        text-align: center;
+        font-family: "aileronHI";
+        font-size: 500%; }
+
+      /* for the countdown timer */
+      #timer{
+        text-align: center;
+        font-size: 60px; }
+
+      /* weather block */
+      #weather {
+        margin:0;
+        padding:75px;
+        font-family: "aileronH"; }
+    </style>
+  </head>
+
+
+  <body>
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+
+    <!--banner content-->
+    <div id="banner">
+      <div id="bannerText">Georgia Tech</div>
+      <img src="images/boats.jpg" alt="banner" />
+      <div id="bannerText">Womens Crew</div>
+    </div>
+
+
+    <!--timer goes here.
+        copy and pasted from
+        https://www.w3schools.com/howto/howto_js_countdown.asp  -->
+    <p id="timer"></p>
+    <script>
+    // Set the date we're counting down to
+    var countDownDate = new Date("April 14, 2018 00:00:01").getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+        // Get todays date and time
+        var now = new Date().getTime();
+        
+        // Find the distance between now an the count down date
+        var distance = countDownDate - now;
+        
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Output the result in an element with id="timer"
+        document.getElementById("timer").innerHTML = "<br>Countdown to SIRA 2018:<br>" + days + "d " + hours + "h "
+        + minutes + "m " + seconds + "s ";
+        
+        // If the count down is over, write some text 
+        if (distance < 0 & days > -3) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "Time to kick ass at SIRA!";
+        }
+        else if (days <= -3) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "Congratulations for finishing the season! <br>And to those few selected to represent Georgia Tech at Dad Vails or ACRA, let's keep the momentum going!";}
+    }, 1000);
+    </script>
+
+
+
+
+    <!-- google calendar -->
+    <div class="container-fluid text-center" id="calendar">
+      <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FNew_York" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
+
+    <!-- weather -->
+    <div id="weather">
+      <h1 class="text-left">Today's Weather</h1>
+      <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="https://forecast.io/embed/#lat=34.0073&lon=-84.3435&name=GT Boathouse&color=#00aaff&font=Georgia&units=us12"></iframe>
+      <iframe height="1000" width="100%" src="https://darksky.net/forecast/34.0073,-84.3435/us12/en"></iframe>
+    </div>
+
+    <!--footer-->
+    <div id="footer-placeholder"></div>
+
+  </body>
+</html>
