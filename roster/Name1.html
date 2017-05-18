@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Roster - Name 1</title>
+  <meta http-equiv="description" content="Description of this page" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="../mystyle.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://use.fontawesome.com/5dc3709a8c.js"></script>
+  <script>
+    $(function(){
+    $("#nav-placeholder").load("../navbar.html");
+    $("#footer-placeholder").load("../footer.html")
+  });
+  </script>
+
+  <!-- Custom CSS -->
+  <style>
+  #bod {
+    margin-left: 250px;
+    background-color: #F0F0F0; 
+    font-family: "aileron"; }
+  #maincontent {
+    margin:0;
+    padding-left: 20px;
+    float: right;
+    width: 100%; }
+  #subtext {
+    padding-left: 5px; }
+  #headshot {
+    margin:0;
+    padding:10px;
+    float: left;
+    width: 250px;
+    margin-left: -250px;
+    background-color: #CCCCCC; }
+  #title {
+    font-size: 400%;
+    font-family: "aileronHI"; }
+  #new {
+    width: 100%;
+    margin:0;
+  }
+  </style>
+</head>
+
+
+<body>
+<!-- Nav Bar -->
+<div id="nav-placeholder"></div>
+
+<div id="bod">
+  <div id="maincontent">
+
+    <div id="rowinginfo">
+      <h1 id="title">Name 1</h1>
+    </div>
+    
+    <div id="accademic stuff">
+      <h3>Accademics</h3>
+      <p id="subtext">stuff here<br>resume<br>linkedin</p>
+    </div>
+    
+    <div id="professional stuff">
+      <h3>Professional Stuff</h3>
+      <p id="subtext">put job stuff and professional stuff here. job experience. job you are looking for etc</p>
+    </div>
+  </div>
+
+  <!-- Side Bar -->
+  <div id="headshot">
+    <div class="thumbnail">
+      <img src="../images/lucas.jpeg" alt="Name0d" style="width:100%">
+    </div>
+    <p>3rd Year Port<br>
+      Age: 20<br>
+      Major: Applied Mathematics
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
