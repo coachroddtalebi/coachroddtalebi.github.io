@@ -20,8 +20,6 @@
   <!-- Custom CSS -->
   <style>
   #bod {
-    margin-left: 250px;
-    background-color: #F0F0F0; 
     font: 400 16px/1.4 Lato, sans-serif;
     padding-bottom: 50px
   }
@@ -31,6 +29,10 @@
     padding-bottom: 50px;
     float: right;
     width: 100%; }
+  #newmaincontent {
+    padding-left: 30px;
+    padding-bottom: 0px;
+  }
   #subtext {
     padding-left: 20px; }
   #headshot {
@@ -40,6 +42,10 @@
     width: 250px;
     margin-left: -250px;
     background-color: #CCCCCC; }
+  #newheadshot{
+    padding:10px;
+    background-color: #CCCCCC; }
+  }
   #title {
     font-size: 400%;
     font-family: "aileronHI"; }
@@ -48,11 +54,15 @@
     margin:0;
   }
   #plots{
-    padding-top: 50px;
+    padding-top: 10px;
   }
   #all_plots {
-    padding-top:50px;
+    padding-top:0px;
     padding-bottom: 50px;
+  }
+  #stats{
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
   </style>
 </head>
@@ -63,85 +73,82 @@
 <div id="nav-placeholder"></div>
 
 <div id="bod">
-  <div id="maincontent">
 
-    <div id="rowinginfo">
-      <h1 id="title">Lulu Saliou</h1>
-      <p id="subtext">
-        <b>Side:</b> Port<br>
-        <b>Exp:</b>     5 yrs<br>
-        <b>Height:</b>  5ft 8in<br>
+  <div id="top" class="container-fluid" style="width:100%;">
+    <!-- Side Bar -->
+    <div id="newheadshot" class="col-md-3">
+      <div class="thumbnail">
+        <img src="../images/lucas.jpeg" alt="Name0d" style="width:100%">
+      </div>
+      <p>
+        <b>Age:</b> ?<br>
+        <b>Degree:</b> Master in Human Computer Interaction<br>
+        <b>Year:</b> 2018<br>
       </p>
     </div>
-    
-    
-    <div id="injuryreport">
-      <h3>Injury Report</h3>
-      <p id="subtext">
-        PLACEHOLDER
-        <br>
-        <a href="http://bl.ocks.org/ndarville/7075823">Basic Table</a>
-        <br>
-        <a href="http://bl.ocks.org/ndarville/7241320">Advanced Table</a>
-      </p>
-    </div>
-    
-    <div id="Statistics">
-      <h3>Statistics</h3>
-      <p id="subtext">
-        Split into 2 divs:
-        4x10min , 2k intervals ...Placeholder<br>
-        30min, 6k <br>
-        all timeline, golden curve.<br>
-      </p>
+
+
+    <div id="newmaincontent" class="col-md-9">
+      <div id="rowinginfo">
+        <h1 id="title">Lulu Saliou</h1>
+        <p id="subtext">
+          <b>Side:</b> Port<br>
+          <b>Exp:</b>     5 yrs<br>
+          <b>Height:</b>  5ft 8in<br>
+        </p>
+      </div>
+      
+      
+      <div id="injuryreport">
+        <h3>Injury Report</h3>
+        <p id="subtext">
+          PLACEHOLDER
+          <br>
+          <a href="http://bl.ocks.org/ndarville/7075823">Basic Table</a>
+          <br>
+          <a href="http://bl.ocks.org/ndarville/7241320">Advanced Table</a>
+        </p>
+      </div>
     </div>
   </div>
 
-  <!-- Side Bar -->
-  <div id="headshot">
-    <div class="thumbnail">
-      <img src="../images/lucas.jpeg" alt="Name0d" style="width:100%">
-    </div>
-    <p>
-      <b>Age:</b> ?<br>
-      <b>Degree:</b> Master in Human Computer Interaction<br>
-      <b>Year:</b> 2018<br>
-    </p>
-  </div>
-</div>
 
-<div id="all_plots" class="container-fluid" style="width:100%;">
-  <div id="plots" class="container-fluid" style="width:100%;">
-    <div class="col-md-6">
-      <center>
-        .<br>.<br>.<br>
-        4x10min Placeholder
-        <br>.<br>.<br>.<br>
-      </center>
+  <div id="all_plots" class="container-fluid" style="width:100%;">
+    <center><h3 id="stats">
+      Statistics
+    </h3></center>
+    <div id="plots" class="container-fluid" style="width:100%;">
+      <div class="col-md-6">
+        <center>
+          .<br>.<br>.<br>
+          4x10min Placeholder
+          <br>.<br>.<br>.<br>
+        </center>
+      </div>
+      <div class="col-md-6">
+        <center>
+          .<br>.<br>.<br>
+          2k Placeholder
+          <br>.<br>.<br>.<br>
+        </center>
+      </div>
     </div>
-    <div class="col-md-6">
-      <center>
-        .<br>.<br>.<br>
-        2k Placeholder
-        <br>.<br>.<br>.<br>
-      </center>
-    </div>
-  </div>
 
-  <div id="plots" class="container-fluid" style="width:100%;">
-    <div class="col-md-6">
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/28.embed" height="525" width="100%"></iframe>
+    <div id="plots" class="container-fluid" style="width:100%;">
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/28.embed" height="525" width="100%"></iframe>
+      </div>
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/30.embed" height="525" width="100%"></iframe>        </div>
     </div>
-    <div class="col-md-6">
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/30.embed" height="525" width="100%"></iframe>        </div>
-  </div>
 
-  <div  id="plots"class="container-fluid" style="width:100%;">
-    <div class="col-md-6">
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/32.embed" height="525" width="100%"></iframe>
-    </div>
-    <div class="col-md-6">
-      <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/34.embed" height="525" width="100%"></iframe>
+    <div  id="plots"class="container-fluid" style="width:100%;">
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/32.embed" height="525" width="100%"></iframe>
+      </div>
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/34.embed" height="525" width="100%"></iframe>
+      </div>
     </div>
   </div>
 </div>
