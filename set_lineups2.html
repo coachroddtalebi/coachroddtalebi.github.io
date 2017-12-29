@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Lineups</title>
+    <meta http-equiv="description" content="Description of this page" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/5dc3709a8c.js"></script>
+    <script src="d3/d3.js"></script>
+    <script>
+        $(function(){
+        $("#nav-placeholder").load("navbar.html");
+        $("#footer-placeholder").load("footer.html")
+    });
+    </script>
+    <style>
+        #maincontent {padding: 15px}
+        .active {
+            stroke: #000;
+            stroke-width: 2px;
+        }
+        text {
+            font: 18px sans-serif;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Nav Bar -->
+<div id="nav-placeholder"></div>
+
+<div id="maincontent">
+    <!--
+    <a href="https://docs.google.com/spreadsheets/d/1CldRRFLLcfNE16CAHfvzAe6oQXOYV8GWAnE077ZRgk4/edit?usp=sharing" class="btn btn-info" role="button">Go To Google Sheets</a>
+    -->
+
+    <h1>Set Lineups</h1>
+
+    <!--begin svg block-->
+    <svg width="1200" height="1"></svg> <!-- THIS PART GIVES SVG SHAPE -->
+    <script type="text/javascript">
+    //now in js
+
+    //define variables
+    var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        radius = 27;
+
+    // setup x
+    var xValue = function(d) {
+        if (d.Type == "Starboard") {return x=Math.round(2*radius)}
+            else if (d.Type == "BiStar") {return x=Math.round(2*radius)}
+            else if (d.Type == "Port") {return x=Math.round(4*radius)}
+            else if (d.Type == "BiPort") {return x=Math.round(4*radius)}
+            else if (d.Type == "Cox") {return x=Math.round(6.5*radius)}
+    }
+
+    // setup y
+    var yPort = 0
+    var yStar = 0
+    var yCox = 0
+    var yValue = function(d) {
+        if (d.Type == "Starboard") {
+            y = Math.round(2*radius) + yStar;
+            yStar = y;
+            return y}
+            else if (d.Type == "BiStar") {
+                y = Math.round(2*radius) + yStar;
+                yStar = y;
+                return y}
+            else if (d.Type == "Port") {
+                y = Math.round(2*radius) + yPort;
+                yPort = y;
+                return y}
+            else if (d.Type == "BiPort") {
+                y = Math.round(2*radius) + yPort;
+                yPort = y;
+                return y}
+            else if (d.Type == "Cox") {
+                y = Math.round(2*radius) + yCox;
+                yCox = y;
+                return y}
+    }
+
+    
+    // DEFINE SVG CONTAINER
+    var svgContainter = d3.select("body")
+        .append("svg")
+            .attr("width", width+50)
+            .attr("height", width*2/3+100);
+
+    var rosterContainer = svgContainter.append('g')
+    var fleetContainer = svgContainter.append('g')
+
+
+    // READ DATA INTO CONTAINER
+    //var data
+    d3.csv("data/Roster.csv", function(data) {
+        data.forEach(function(d) {
+            full_name : d["Full Name"];
+            name: d["Goes By"];
+            type : d["Type"];
+            status : d["Status"];
+            date : d["Last Updated"]
+            console.log(d);
+        });
+
+        // DEFINE G ELEMENT FOR ROSTER
+        // want everything here to be dragged and transformed
+        //var circleGroup = svgContainter.append("g")
+        var circleGroup = rosterContainer.selectAll('g')
+            .data(data)
+            .enter().append('g')
+            .attr('transform',function(d) { return 'translate('+xValue(d)+','+yValue(d)+')'; })
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+
+        // DEFINE G ROSTER SHAPE
+        circleGroup.append("circle")
+            .attr("r", radius)
+            .style("fill", function(d) {
+                if (d.Type == "Port") {color = "#ff0000"}
+                    else if (d.Type == "Starboard") {color = "#008000"}
+                    else if (d.Type == "BiPort") {color = "#ff9999"}
+                    else if (d.Type == "BiStar") {color = "#99ff99"}
+                    else if (d.Type == "Cox") {color = "grey"}
+                if (d.Status == "Injured") {color = "yellow"}
+                if (d.Status == "Absent") {color = "yellow"}
+                return color;
+            })
+
+
+
+        circleGroup.append("text")
+            .text(function(d) {return d["Goes By"]})
+            .style('text-anchor', 'middle')
+            .attr('y', 4)
+
+
+        function dragstarted(d) {
+            d3.select(this).raise().classed("active", true);
+        }
+
+        function dragged(d) {
+            d3.select(this)
+                .attr("transform","translate("+(d.x = d3.event.x)+','+(d.y = d3.event.y)+')');
+        }
+
+        function dragended(d) {
+          d3.select(this).classed("active", false);
+        }
+    })
+    console.log(width)
+    var xFleet = function(d, i) {
+        x = width - (i * 1.25 * radius) - radius;
+        return x;
+    }
+    //fleet data
+    d3.csv("data/Fleet.csv", function(data) {
+        data.forEach(function(d) {
+            name : d["Name"];
+            type : +d["Type"];
+            age : +d["Age"];
+            console.log(d)
+        });
+        
+        var rectGroup = fleetContainer.selectAll('g')
+            .data(data)
+            .enter().append('g')
+            .attr('transform',function(d,i) { return 'translate('+xFleet(d,i)+','+radius+')'; })
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+
+        rectGroup.append("rect")
+            .attr("width", radius)
+            .attr("height", function(d) {
+                length = d["Type"] * 2 * radius;
+                return length})
+            .attr("fill", color = "grey")
+
+        rectGroup.append("text")
+            .text(function(d) {return d["Name"]})
+            .attr('transform', function(d) {return 'translate('+radius/3+','+radius/4+')rotate(90)'})
+
+        function dragstarted(d) {
+            d3.select(this).raise().classed("active", true);
+        }
+
+        function dragged(d) {
+            d3.select(this)
+                .attr("transform","translate("+(d.x = d3.event.x)+','+(d.y = d3.event.y)+')');
+        }
+
+        function dragended(d) {
+          d3.select(this).classed("active", false);
+        }
+    })
+</script>
+<!--
+<iframe src="https://docs.google.com/spreadsheets/d/1CldRRFLLcfNE16CAHfvzAe6oQXOYV8GWAnE077ZRgk4/pubhtml?gid=1681438053&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+-->
+</div>
+<div id="footer-placeholder"></div>
+</body>
