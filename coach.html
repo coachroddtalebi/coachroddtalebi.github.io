@@ -20,6 +20,20 @@
     </script>
     <style>
         #maincontent {padding: 15px}
+        #header {
+            padding: 25px;
+        }
+        #subcontent {
+            padding-left: 20px;
+        }
+        #plotcontent {
+            padding-top: 10px;
+        }
+        #plot {
+            padding-top: 0px;
+            padding-bottom: 50px
+        }
+
         .active {
             stroke: #000;
             stroke-width: 2px;
@@ -39,8 +53,29 @@
     <!--
     <a href="https://docs.google.com/spreadsheets/d/1CldRRFLLcfNE16CAHfvzAe6oQXOYV8GWAnE077ZRgk4/edit?usp=sharing" class="btn btn-info" role="button">Go To Google Sheets</a>
     -->
-
-    <h1>Set Lineups</h1>
+    <div id="header">
+        <h1>Coach's Dashboard</h1>
+        <div id="subcontent" class="container-fluid" style="width:100%;">
+            <h3>Quick Links:</h3>
+            <div class="col-md-2">
+                <a href="https://drive.google.com/drive/u/0/my-drive" class="btn btn-info" role="button" target="_blank">Drive Home</a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://docs.google.com/spreadsheets/d/1CldRRFLLcfNE16CAHfvzAe6oQXOYV8GWAnE077ZRgk4/edit#gid=1681438053" class="btn btn-info" role="button" target="_blank">Set Lineups</a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://docs.google.com/spreadsheets/d/1BazugvhtqkR6PZHJvuzNudlXQuLYXub5T3eFXI8yoEI/edit#gid=0" class="btn btn-info" role="button" target="_blank">Full Roster</a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://drive.google.com/drive/u/0/folders/0B0Jf7M0mwrJwdVpDd2F6bW9TRUk" class="btn btn-info" role="button" target="_blank">Regatta Folder</a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://drive.google.com/drive/u/0/folders/0BzmuweK8TzRGdENMdDJVTjNGN0E" class="btn btn-info" role="button" target="_blank">Data Folder</a>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
 
     <!--begin svg block-->
     <svg width="1200" height="1"></svg> <!-- THIS PART GIVES SVG SHAPE -->
@@ -55,11 +90,11 @@
 
     // setup x
     var xValue = function(d) {
-        if (d.Type == "Starboard") {return x=Math.round(2*radius)}
-            else if (d.Type == "BiStar") {return x=Math.round(2*radius)}
-            else if (d.Type == "Port") {return x=Math.round(4*radius)}
-            else if (d.Type == "BiPort") {return x=Math.round(4*radius)}
-            else if (d.Type == "Cox") {return x=Math.round(6.5*radius)}
+        if (d.Side == "Starboard") {return x=Math.round(2*radius)}
+            else if (d.Side == "BiStar") {return x=Math.round(2*radius)}
+            else if (d.Side == "Port") {return x=Math.round(4*radius)}
+            else if (d.Side == "BiPort") {return x=Math.round(4*radius)}
+            else if (d.Side == "Cox") {return x=Math.round(6.5*radius)}
     }
 
     // setup y
@@ -67,23 +102,23 @@
     var yStar = 0
     var yCox = 0
     var yValue = function(d) {
-        if (d.Type == "Starboard") {
+        if (d.Side == "Starboard") {
             y = Math.round(2*radius) + yStar;
             yStar = y;
             return y}
-            else if (d.Type == "BiStar") {
+            else if (d.Side == "BiStar") {
                 y = Math.round(2*radius) + yStar;
                 yStar = y;
                 return y}
-            else if (d.Type == "Port") {
+            else if (d.Side == "Port") {
                 y = Math.round(2*radius) + yPort;
                 yPort = y;
                 return y}
-            else if (d.Type == "BiPort") {
+            else if (d.Side == "BiPort") {
                 y = Math.round(2*radius) + yPort;
                 yPort = y;
                 return y}
-            else if (d.Type == "Cox") {
+            else if (d.Side == "Cox") {
                 y = Math.round(2*radius) + yCox;
                 yCox = y;
                 return y}
@@ -94,7 +129,7 @@
     var svgContainter = d3.select("body")
         .append("svg")
             .attr("width", width+50)
-            .attr("height", width*2/3+100);
+            .attr("height", 500);//width*2/3+100);
 
     var rosterContainer = svgContainter.append('g')
     var fleetContainer = svgContainter.append('g')
@@ -106,8 +141,8 @@
         data.forEach(function(d) {
             full_name : d["Full Name"];
             name: d["Goes By"];
-            type : d["Type"];
-            status : d["Status"];
+            side : d["Side"];
+            status : d["Active"];
             date : d["Last Updated"]
             console.log(d);
         });
@@ -129,11 +164,11 @@
         circleGroup.append("circle")
             .attr("r", radius)
             .style("fill", function(d) {
-                if (d.Type == "Port") {color = "#ff0000"}
-                    else if (d.Type == "Starboard") {color = "#008000"}
-                    else if (d.Type == "BiPort") {color = "#ff9999"}
-                    else if (d.Type == "BiStar") {color = "#99ff99"}
-                    else if (d.Type == "Cox") {color = "grey"}
+                if (d.Side == "Port") {color = "#ff0000"}
+                    else if (d.Side == "Starboard") {color = "#008000"}
+                    else if (d.Side == "BiPort") {color = "#ff9999"}
+                    else if (d.Side == "BiStar") {color = "#99ff99"}
+                    else if (d.Side == "Cox") {color = "grey"}
                 if (d.Status == "Injured") {color = "yellow"}
                 if (d.Status == "Absent") {color = "yellow"}
                 return color;
@@ -213,5 +248,88 @@
 <iframe src="https://docs.google.com/spreadsheets/d/1CldRRFLLcfNE16CAHfvzAe6oQXOYV8GWAnE077ZRgk4/pubhtml?gid=1681438053&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
 -->
 </div>
+
+
+<div id="plotcontent" class="container-fluid" style="width:100%;">
+
+    <div id="plot" class="container-fluid" style="width:100%;">
+        <div class="col-md-6">
+            <center>
+                .<br>.<br>.<br>
+                2k Averages
+                <br>.<br>.<br>.
+            </center>
+        </div>
+
+        <div class="col-md-6">
+            <center>
+                .<br>.<br>.<br>
+                2k Timeline
+                <br>.<br>.<br>.
+            </center>
+        </div>
+    </div>
+
+
+    <div id="plot" class="container-fluid" style="width:100%;">
+        <div class="col-md-6">
+            <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/46.embed" height="525" width="100%"></iframe>
+        </div>
+
+        <div class="col-md-6">
+            <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/38.embed" height="525" width="100%"></iframe>
+        </div>
+    </div>
+
+
+    <div id="plot" class="container-fluid" style="width:100%;">
+        <div class="col-md-6">
+            <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/48.embed" height="525" width="100%"></iframe>
+        </div>
+
+        <div class="col-md-6">
+            <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/36.embed" height="525" width="100%"></iframe>
+        </div>
+    </div>
+
+
+    <div id="plot" class="container-fluid" style="width:100%;">
+        <div class="col-md-6">
+            <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/42.embed" height="525" width="100%"></iframe>
+        </div>
+
+        <div class="col-md-6">
+            <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/44.embed" height="525" width="100%"></iframe>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div id="footer-placeholder"></div>
 </body>
