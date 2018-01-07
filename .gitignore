@@ -1,0 +1,17 @@
+ignore d3 folder
+#d3/
+#scripts/driveAPI/
+#scripts/cronjob/
+
+#ignore anything in php
+.php
+.sh
+.swp
+
+#ignore Other HTML folder where test files live
+Other HTML/
+data/
+scripts/cronjob/
+scripts/driveAPI/
+
+
