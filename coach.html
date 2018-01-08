@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Set Lineups</title>
-    <meta http-equiv="description" content="Description of this page" />
+    <title>Coach's Dashboard</title>
+    <meta http-equiv="description" content="Coach's Dashboard">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="mystyle.css">
@@ -139,13 +139,13 @@
 
     // READ DATA INTO CONTAINER
     //var data
-    d3.csv("data/roster.csv", function(data) {
+    d3.csv("public_data/roster.csv", function(data) {
         data.forEach(function(d) {
             full_name : d["Full Name"];
             name: d["Goes By"];
             side : d["Side"];
             status : d["Active"];
-            date : d["Last Updated"]
+            //date : d["Last Updated"]
             console.log(d);
         });
 
@@ -203,7 +203,7 @@
         return x;
     }
     //fleet data
-    d3.csv("data/Fleet.csv", function(data) {
+    d3.csv("public_data/fleet.csv", function(data) {
         data.forEach(function(d) {
             name : d["Name"];
             type : +d["Type"];

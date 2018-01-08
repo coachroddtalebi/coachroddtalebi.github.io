@@ -15,7 +15,7 @@ from apiclient import discovery
 from httplib2 import Http
 from oauth2client import file, client, tools
 
-home_dir = "/Users/Rodd/Desktop/websites/roddtalebi.github.io/scripts/"
+home_dir = "/Users/Rodd/Desktop/websites/coachroddtalebi.github.io/scripts/"
 
 SCOPES = (
     "https://www.googleapis.com/auth/drive.readonly"
