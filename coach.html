@@ -96,7 +96,7 @@
             else if (d.Side == "BiStar") {return x=Math.round(2*radius)}
             else if (d.Side == "Port") {return x=Math.round(4*radius)}
             else if (d.Side == "BiPort") {return x=Math.round(4*radius)}
-            else if (d.Side == "Cox") {return x=Math.round(6.5*radius)}
+            else if (d.Side == "Coxswain") {return x=Math.round(6.5*radius)}
     }
 
     // setup y
@@ -120,7 +120,7 @@
                 y = Math.round(2*radius) + yPort;
                 yPort = y;
                 return y}
-            else if (d.Side == "Cox") {
+            else if (d.Side == "Coxswain") {
                 y = Math.round(2*radius) + yCox;
                 yCox = y;
                 return y}
@@ -170,7 +170,7 @@
                     else if (d.Side == "Starboard") {color = "#008000"}
                     else if (d.Side == "BiPort") {color = "#ff9999"}
                     else if (d.Side == "BiStar") {color = "#99ff99"}
-                    else if (d.Side == "Cox") {color = "grey"}
+                    else if (d.Side == "Coxswain") {color = "grey"}
                 if (d.Status == "Injured") {color = "yellow"}
                 if (d.Status == "Absent") {color = "yellow"}
                 return color;
