@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Roster - Brianna Prindle </title>
+  <meta http-equiv="description" content="Bri's Rower Page" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="../mystyle.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://use.fontawesome.com/5dc3709a8c.js"></script>
+  <script>
+    $(function(){
+    $("#nav-placeholder").load("../navbar.html");
+    $("#footer-placeholder").load("../footer.html")
+  });
+  </script>
+
+  <!-- Custom CSS -->
+  <style>
+  #bod {
+    font: 400 16px/1.4 Lato, sans-serif;
+    padding-bottom: 50px
+  }
+  #maincontent {
+    margin:0;
+    padding-left: 20px;
+    padding-bottom: 50px;
+    float: right;
+    width: 100%; }
+  #newmaincontent {
+    padding-left: 30px;
+    padding-bottom: 0px;
+  }
+  #subtext {
+    padding-left: 20px; }
+  #headshot {
+    margin:0;
+    padding:10px;
+    float: left;
+    width: 250px;
+    margin-left: -250px;
+    background-color: #CCCCCC; }
+  #newheadshot{
+    padding:10px;
+    background-color: #CCCCCC; }
+  }
+  #title {
+    font-size: 400%;
+    font-family: "aileronHI"; }
+  #new {
+    width: 100%;
+    margin:0;
+  }
+  #plots{
+    padding-top: 10px;
+  }
+  #all_plots {
+    padding-top:0px;
+    padding-bottom: 50px;
+  }
+  #stats{
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  </style>
+</head>
+
+
+<body>
+<!-- Nav Bar -->
+<div id="nav-placeholder"></div>
+
+<div id="bod">
+
+  <div id="top" class="container-fluid" style="width:100%;">
+    <!-- Side Bar -->
+    <div id="newheadshot" class="col-md-3">
+      <div class="thumbnail">
+        <img src="headshots/Bri.jpg" alt="Name0d" style="width:100%">
+      </div>
+      <p>
+        <b>Age:</b> ?<br>
+        <b>Degree:</b> BS Biomedical Engineering<br>Applied Physiology minor<br>
+        <b>Year:</b> 2020<br>
+      </p>
+    </div>
+
+
+    <div id="newmaincontent" class="col-md-9">
+      <div id="rowinginfo">
+        <h1 id="title">Brianna Prindle</h1>
+        <p id="subtext">
+          <b>Side:</b> Starboard<br>
+          <b>Exp:</b>     1 yrs<br>
+          <b>Height:</b>  5ft 4in<br>
+        </p>
+      </div>
+      
+      
+      <div id="injuryreport">
+        <h3>Injury Report</h3>
+        <p id="subtext">
+          PLACEHOLDER
+          <br>
+          <a href="http://bl.ocks.org/ndarville/7075823">Basic Table</a>
+          <br>
+          <a href="http://bl.ocks.org/ndarville/7241320">Advanced Table</a>
+          <br>
+          <a href="https://gist.github.com/jfreels/6814721">GitHub D3</a>
+          <br>
+          <a href="https://www.jqueryscript.net/table/jQuery-Plugin-To-Generate-A-Table-From-A-CSV-File-CSV-Parser.html">jQuery</a>
+          <br>
+          <a href="https://developers.google.com/chart/interactive/docs/datatables_dataviews">Google Viz</a>
+          <br>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="all_plots" class="container-fluid" style="width:100%;">
+    <center><h3 id="stats">
+      Statistics
+    </h3></center>
+    <div id="plots" class="container-fluid" style="width:100%;">
+      <div class="col-md-6">
+        <center>
+          .<br>.<br>.<br>
+          4x10min Placeholder
+          <br>.<br>.<br>.<br>
+        </center>
+      </div>
+      <div class="col-md-6">
+        <center>
+          .<br>.<br>.<br>
+          2k Placeholder
+          <br>.<br>.<br>.<br>
+        </center>
+      </div>
+    </div>
+
+    <div id="plots" class="container-fluid" style="width:100%;">
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/28.embed" height="525" width="100%"></iframe>
+      </div>
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/30.embed" height="525" width="100%"></iframe>        </div>
+    </div>
+
+    <div  id="plots"class="container-fluid" style="width:100%;">
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/32.embed" height="525" width="100%"></iframe>
+      </div>
+      <div class="col-md-6">
+        <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plot.ly/~rodd_talebi/34.embed" height="525" width="100%"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
