@@ -14,4 +14,4 @@ data/
 scripts/cronjob/
 scripts/driveAPI/
 test/
-*/.ipynb_checkpoints/
+scripts/.ipynb_checkpoints/
