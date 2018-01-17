@@ -614,7 +614,7 @@ def plot_intervals(name):
             pass        
         
     else:
-        print "not 6km data (Timeline) for " + name
+        print "no 6km data (Timeline) for " + name
         pass
     
     
