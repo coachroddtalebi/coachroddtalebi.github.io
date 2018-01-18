@@ -81,7 +81,7 @@
         <img src="headshots/Lulu.jpg" alt="Name0d" style="width:100%">
       </div>
       <p>
-        <b>Age:</b> ?<br>
+        <b>Age:</b> <text id="age"></text><br>
         <b>Degree:</b> Master in Human Computer Interaction<br>
         <b>Year:</b> 2018<br>
       </p>
@@ -161,6 +161,21 @@
 
   </div>
 </div>
+
+<!--Birthday https://stackoverflow.com/questions/4060004/calculate-age-given-the-birth-date-in-the-format-yyyymmdd -->
+<script>
+function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+document.getElementById("age").innerHTML = getAge('1980-08-10')
+</script>
 
 </body>
 </html>

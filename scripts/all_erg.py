@@ -166,7 +166,7 @@ def plot_30min_intervals(name):
         traces.append(trace)
 
     layout = go.Layout(
-        title = "10min Splits - " + name,
+        title = "30min Piece - " + name,
         xaxis=dict(
             title="Minutes"
             ),
@@ -262,7 +262,7 @@ def plot_6k_intervals(name):
         traces.append(trace)
 
     layout = go.Layout(
-        title = "1km Splits - " + name,
+        title = "6km Test - " + name,
         xaxis=dict(
             title="Meters"
             ),
@@ -425,7 +425,7 @@ def plot_4x10min_intervals(name):
         traces.append(trace)
 
     layout = go.Layout(
-        title = "10min splits - " + name,
+        title = "4x10min Pieces - " + name,
         xaxis=dict(
             title="10min Piece"
             ),
@@ -492,7 +492,7 @@ def plot_1500m_intervals(name):
             continue
 
         trace = go.Scatter(
-            x=[1500,3000,4500,6000,7500],
+            x=[1,2,3,4,5],
             y=times.tolist()[:-1],
             line=dict(
                 shape='spline'
@@ -504,7 +504,7 @@ def plot_1500m_intervals(name):
         traces.append(trace)
 
     layout = go.Layout(
-        title = "1500m splits - " + name,
+        title = "5x1500m Pieces - " + name,
         xaxis=dict(
             title="1500m Piece"
             ),
@@ -670,7 +670,7 @@ def plot_intervals(name):
     
     #-------------------
     layout = go.Layout(
-        title = "Erg Test Progression for "+ name,
+        title = "Erg Test Progression - "+ name,
         xaxis=dict(
             title="Date"
             ),
