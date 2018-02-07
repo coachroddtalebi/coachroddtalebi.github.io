@@ -627,24 +627,23 @@ def plot_intervals(name):
             times = scores5.loc[name_loc,'Ave'].apply(lambda x: convert_split(x))
             dates = scores5.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime())
             ave = [str(x) for x in scores5.loc[name_loc,'Ave']]
+            trace = go.Scatter(
+                x=dates,
+                y=times,
+                line=dict(
+                    shape='linear'#'spline'
+                    ),
+                name="5x1500m",
+                hoverinfo='text', #the 'text' flags tells you to look at hovertext
+                hovertext = ave
+                )
+            traces.append(trace)
         
         except ValueError:
             # sometimes the rowers input the data incorrectly
             print "Error with 1500m data point for", name
             print scores5.loc[name_loc,['1','2','3','4','5','Ave']].iloc[i]
-            continue
 
-        trace = go.Scatter(
-            x=dates,
-            y=times,
-            line=dict(
-                shape='linear'#'spline'
-                ),
-            name="5x1500m",
-            hoverinfo='text', #the 'text' flags tells you to look at hovertext
-            hovertext = ave
-            )
-        traces.append(trace)
     else:
         print "no 1500m pieces (Timeline) for " + name
         pass
