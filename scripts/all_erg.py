@@ -540,6 +540,7 @@ scores2k = pd.read_csv(
     parse_dates = [0],
     infer_datetime_format = True
     )
+scores2k = scores2k.dropna()
 
 # sort Names and Date
 scores2k = scores2k.sort_values(by=['Name', 'Timestamp'])
@@ -626,6 +627,7 @@ for name in names:
 ####################
 # SPRING - Weight Adjusted 2km
 ####################
+scores2k['Date'] = scores2k['Timestamp'].apply(lambda x: x.date())
 # Adjust each 6k score with rower's weight on that day
 scores2k['CorrSplit'] = "00:00.0"
 for index, row in scores2k.iterrows():
