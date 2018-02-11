@@ -531,11 +531,116 @@ for name in names:
 ####################
 # SPRING - 2km
 ####################
+print breaker, "Reading and opening 2km data..."
+
+# get 6km piece scores
+scores2k = pd.read_csv(
+    home_dir + 'data/2k.csv',
+    header = 0, #header is in first line
+    parse_dates = [0],
+    infer_datetime_format = True
+    )
+
+# sort Names and Date
+scores2k = scores2k.sort_values(by=['Name', 'Timestamp'])
+
+# get watts 
+scores2k = scores2k.apply(lambda x: check_watts(x), axis=1)
+
+# find PRs with watts
+scores2k['PR'] = 0
+for name in names:
+    if scores2k.loc[scores2k['Name']==name].shape[0] > 0:
+        name_loc = scores2k['Name']==name
+        # get the PR
+        pr_loc = scores2k.loc[name_loc,'Watts'].argmax()
+        scores2k.loc[pr_loc,'PR'] = 1  
+    else:
+        continue
+
+# plotter ftn
+def plot_2k_intervals(name):
+    '''
+    take in a name, and find all 2k scores
+    plot each erg test individually over the time steps: each 500m interval
+    if the data was not properly entered (no complete data for each 500m), then don't plot
+    
+    Example
+    fig = plot_2k_intervals(name)
+    py.iplot(fig, filename = name + '-2km')
+    '''
+    traces = []
+    name_loc = scores2k['Name']==name
+    if sum(name_loc) == 0:
+        print "No 2km data for", name
+        return 0
+    else:
+        pass
+    dates = scores2k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime().date()).tolist()
+
+    for i in range(scores2k.loc[name_loc].shape[0]):
+        try:
+            times = scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit']].iloc[i].apply(lambda x: convert_split(x))
+        except ValueError:
+            print "Error with 2km erg test for", name
+            print scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit']].iloc[i]
+            continue
+
+        trace = go.Scatter(
+            x=[500,1000,1500,2000],
+            y=times.tolist()[:-1],
+            line=dict(
+                shape='spline'
+                ),
+            name=dates[i],
+            hoverinfo='text',
+            hovertext=dates[i].strftime('%b%d')+'<br>Ave: '+times[-1].strftime('%M:%S.%f')[:-5]
+            )
+        traces.append(trace)
+
+    layout = go.Layout(
+        title = "2km Test - " + name,
+        xaxis=dict(
+            title="Meters"
+            ),
+        yaxis=dict(
+            title="Ave Split",
+            tickformat='%M:%S.%f'
+            )
+        )
+    
+    return go.Figure(data=traces, layout=layout)
+
+
+####################
+# get scores
+for name in names:
+    print "\n", name
+    fig = plot_2k_intervals(name)
+    if fig != 0:
+        link = py.plot(fig, filename = name+'-2km', auto_open=False)
+        print tls.get_embed(link)
+
 
 
 ####################
 # SPRING - Weight Adjusted 2km
 ####################
+# Adjust each 6k score with rower's weight on that day
+scores2k['CorrSplit'] = "00:00.0"
+for index, row in scores2k.iterrows():
+    loc = (weights['Name']==row['Name']) & (weights['Date']==row['Date'])
+    if sum(loc) == 1: #then there is an instance
+        weight = weights.loc[loc,'Weight (lbs)']
+        split = row['AveSplit']
+        corr_split, _ = corrected(weight=weight, split=split)
+        scores2k.loc[index,'CorrSplit'] = corr_split
+    elif sum(loc) > 1:
+        print "THERE IS A DUPLICATE WEIGHT FOR" + weights.loc[loc]
+    else:
+        print "Missing weight data for", row['Name'], " on ", row['Date'] 
+        continue
+
 
 
 ####################
@@ -667,6 +772,62 @@ def plot_intervals(name):
     else:
         print "no 4x10min pieces (Timeline) for " + name
         pass
+
+
+
+
+    # -------------
+    # 2km        
+    if scores2k.loc[scores2k['Name']==name].shape[0] > 0:
+        name_loc = scores2k['Name']==name        
+        times = scores2k.loc[name_loc,'AveSplit'].apply(lambda x: convert_split(x))
+        dates = scores2k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime())
+        watts = [str(x[0])+'<br>'+str(x[1])+' watts' for _,x in scores2k.loc[name_loc,['AveSplit','Watts']].iterrows()]
+        
+        trace = go.Scatter(
+            x=dates,
+            y=times,
+            line=dict(
+                shape='linear'#'spline'
+                ),
+            name="2k",
+            hoverinfo='text', #the 'text' flags tells you to look at hovertext
+            hovertext = watts
+            )
+        traces.append(trace)  
+        
+        # -------------
+        # 2km   CORRECTED     
+        name_loc = (scores2k['Name']==name) & (scores2k['CorrSplit']!="00:00.0")
+        if sum(name_loc) > 0:
+            times = scores2k.loc[name_loc,'CorrSplit'].apply(lambda x: convert_split(x))
+            dates = scores2k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime())
+            watts = [str(x[0])+"<br>"+str(x[1])+' watts' for _,x in scores2k.loc[name_loc,['CorrSplit','Watts']].iterrows()]
+
+            trace = go.Scatter(
+                x=dates,
+                y=times,
+                line=dict(
+                    shape='linear'#'spline'
+                    ),
+                name="WeightAdj 2k",
+                hoverinfo='text', #the 'text' flags tells you to look at hovertext
+                hovertext = watts
+                )
+            traces.append(trace)
+        else:
+            print "not Corrected 2km data (Timeline) for " + name
+            pass        
+        
+    else:
+        print "no 2km data (Timeline) for " + name
+        pass
+
+
+
+
+
+
     
     #-------------------
     layout = go.Layout(
@@ -1294,6 +1455,101 @@ print tls.get_embed(link)
 
 
 
+
+####################
+# 2k Averages PR
+traces=[]
+for name in names:
+    name_loc = (scores2k['Name']==name) & (scores2k['PR']==1)
+    if sum(name_loc)==1:
+        date = scores2k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime().date()).tolist()
+    else:
+        print "Wrong number of PRs for ", name
+        continue
+
+    try:
+        times = scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit','CorrSplit']].iloc[0].apply(lambda x: convert_split(x))
+    except ValueError:
+        print "error with 6km erg test for", name
+        print scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit','CorrSplit']]
+        continue
+
+    trace = go.Scatter(
+        x=[500,1000,1500,2000],
+        y=times.tolist()[:4],
+        line=dict(
+            shape='spline'
+            ),
+        name=name,
+        hoverinfo='text',
+        hovertext=date[0].strftime('%b%d')+'<br>Ave: '+times[-2].strftime('%M:%S.%f')[:-5]+'<br>WgtAdj: '+times[-1].strftime('%M:%S.%f')[:-5]
+        )
+    traces.append(trace)
+
+    layout = go.Layout(
+        title = "500m Splits",
+        xaxis=dict(
+            title="Meters"
+            ),
+        yaxis=dict(
+            title="Ave Split",
+            tickformat='%M:%S.%f'
+            )
+        )
+
+
+####################
+# get plot
+print "\n2km Averages"
+fig = go.Figure(data=traces, layout=layout)
+link = py.plot(fig, filename = '2kmPRave', auto_open=False)
+print tls.get_embed(link)
+
+
+
+
+####################
+# 2km Timeline
+traces=[]
+for name in names:
+    name_loc = scores2k['Name']==name
+    if sum(name_loc)>0:
+        times = scores2k.loc[name_loc,'AveSplit'].apply(lambda x: convert_split(x))
+        dates = scores2k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime())
+        meters = [name+"<br>"+"WgtAdj: "+convert_split(x).strftime('%M:%S.%f')[:-5] for x in scores2k.loc[name_loc,'CorrSplit']]
+        
+        trace = go.Scatter(
+            x=dates,
+            y=times,
+            line=dict(
+                shape='linear'
+                ),
+            hoverinfo='text', #the 'text' flags tells you to look at hovertext
+            name=name,
+            hovertext = meters
+            )
+        traces.append(trace)
+    else:
+        print "No 2km scores to report for " + name
+
+layout = go.Layout(
+    title = "2km Timeline",
+    xaxis=dict(
+        title="Date"
+        ),
+    yaxis=dict(
+        title="Ave Split",
+        tickformat='%M:%S.%f'
+        )
+    )
+
+
+####################
+# get plot
+print "\n2km Timeline"
+fig = go.Figure(data=traces, layout=layout)
+link = py.plot(fig, filename = '2km', auto_open=False)
+print tls.get_embed(link)
 
 
 
