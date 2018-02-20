@@ -998,6 +998,7 @@ print breaker, "Get plots for Coaches' Dashboard..."
 
 ####################
 # 30min Averages
+print "\n30min Averages"
 traces=[]
 for name in names:
     name_loc = (scores30['Name']==name) & (scores30['PR']==1)
@@ -1042,7 +1043,6 @@ for name in names:
 
 ####################
 # get plot
-print "\n30min Averages"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '30minPRave', auto_open=False)
 print tls.get_embed(link)
@@ -1051,6 +1051,7 @@ print tls.get_embed(link)
 
 ####################
 # 30min Timeline
+print "\n30min Timeline"
 traces=[]
 for name in names:
     name_loc = scores30['Name']==name
@@ -1087,7 +1088,6 @@ layout = go.Layout(
 
 ####################
 # get plot
-print "\n30min Timeline"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '30min', auto_open=False)
 print tls.get_embed(link)
@@ -1096,6 +1096,7 @@ print tls.get_embed(link)
 
 ####################
 # 6k Averages PR
+print "\n6km Averages"
 traces=[]
 for name in names:
     name_loc = (scores6k['Name']==name) & (scores6k['PR']==1)
@@ -1139,7 +1140,6 @@ for name in names:
 
 ####################
 # get plot
-print "\n6km Averages"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '6kmPRave', auto_open=False)
 print tls.get_embed(link)
@@ -1148,6 +1148,7 @@ print tls.get_embed(link)
 
 ####################
 # 6km Timeline
+print "\n6km Timeline"
 traces=[]
 for name in names:
     name_loc = scores6k['Name']==name
@@ -1184,7 +1185,6 @@ layout = go.Layout(
 
 ####################
 # get plot
-print "\n6km Timeline"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '6km', auto_open=False)
 print tls.get_embed(link)
@@ -1193,6 +1193,7 @@ print tls.get_embed(link)
 
 ####################
 # 6km CORRECTED Timeline
+print "\n6km Corrected Timeline"
 traces=[]
 for name in names:
     name_loc = (scores6k['Name']==name) & (scores6k['CorrSplit']!="00:00.0")
@@ -1229,7 +1230,6 @@ layout = go.Layout(
 
 ####################
 # get plot
-print "\n6km Corrected Timeline"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = 'CORR-6km', auto_open=False)
 print tls.get_embed(link)
@@ -1238,6 +1238,7 @@ print tls.get_embed(link)
 
 ####################
 # Weights Timeline
+print "\nWeights"
 traces = []
 for name in names:
     name_loc = weights['Name']==name
@@ -1268,7 +1269,6 @@ layout = go.Layout(
 
 ####################
 # get plot
-print "\nWeights"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = 'Weights', auto_open=False)
 print tls.get_embed(link)
@@ -1277,6 +1277,7 @@ print tls.get_embed(link)
 
 ####################
 # Golden Curves
+print "\nGolden Curves"
 # assume PRs already scored
 season = "Spring" #"Fall"
 traces = []
@@ -1350,7 +1351,6 @@ layout = go.Layout(
 
 ####################
 # get plot
-print "\nGolden Curves"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = 'GoldCurve', auto_open=False)
 print tls.get_embed(link)
@@ -1359,6 +1359,7 @@ print tls.get_embed(link)
 
 ####################
 # 5x1500m ...most recent
+print "\n5x1500m"
 traces = []
 scores5['Date'] = scores5['Timestamp'].apply(lambda x: x.to_datetime().date())
 for name in names:
@@ -1399,8 +1400,7 @@ layout = go.Layout(
 
 
 ####################
-# get plot
-print "\n5x1500m"    
+# get plot 
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '5x1500 Recent', auto_open=False)
 print tls.get_embed(link)
@@ -1409,6 +1409,7 @@ print tls.get_embed(link)
 
 ####################
 # 4x10min ...most recent
+print "\n4x10min"  
 traces = []
 scores4['Date'] = scores4['Timestamp'].apply(lambda x: x.to_datetime().date())
 for name in names:
@@ -1449,8 +1450,7 @@ layout = go.Layout(
 
 
 ####################
-# get plot
-print "\n4x10min"    
+# get plot  
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '4x10 Recent', auto_open=False)
 print tls.get_embed(link)
@@ -1460,6 +1460,7 @@ print tls.get_embed(link)
 
 ####################
 # 2k Averages PR
+print "\n2km Averages"
 traces=[]
 for name in names:
     name_loc = (scores2k['Name']==name) & (scores2k['PR']==1)
@@ -1502,7 +1503,6 @@ for name in names:
 
 ####################
 # get plot
-print "\n2km Averages"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '2kmPRave', auto_open=False)
 print tls.get_embed(link)
@@ -1512,6 +1512,7 @@ print tls.get_embed(link)
 
 ####################
 # 2km Timeline
+print "\n2km Timeline"
 traces=[]
 for name in names:
     name_loc = scores2k['Name']==name
@@ -1548,7 +1549,6 @@ layout = go.Layout(
 
 ####################
 # get plot
-print "\n2km Timeline"
 fig = go.Figure(data=traces, layout=layout)
 link = py.plot(fig, filename = '2km', auto_open=False)
 print tls.get_embed(link)
