@@ -74,7 +74,7 @@
     <p id="timer"></p>
     <script>
     // Set the date we're counting down to
-    var countDownDate = new Date("April 21, 2018 00:00:01").getTime();
+    var countDownDate = new Date("April 20, 2019 00:00:01").getTime();//TEMP FIX
 
     // Update the count down every 1 second
     var x = setInterval(function() {
@@ -92,7 +92,7 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
         // Output the result in an element with id="timer"
-        document.getElementById("timer").innerHTML = "<br>Countdown to SIRA 2018:<br>" + days + "d " + hours + "h "
+        document.getElementById("timer").innerHTML = "<br>Countdown to SIRA 2019:<br>" + days + "d " + hours + "h "
         + minutes + "m " + seconds + "s ";
         
         // If the count down is over, write some text 
