@@ -1,12 +1,13 @@
-<!DOCTYPE html>  
- < html lang="en">  
-  < head>  
-   < title>EasyAuth</title>  
+<!--DOCTYPE html-->  
+ <html lang="en">  
+  <head>  
+   <title>EasyAuth</title>  
    <meta charset="UTF-8">  
  </head>  
  <!-- Below is the initialization snippet for my Firebase project. It will vary for each project -->  
- <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>  
- <script>  
+  <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase-auth.js"></script>
+  <script>  
   // Initialize Firebase  
   var config = {
     apiKey: "AIzaSyAiOKJVcVlS9JcTj23vUiORTMxk9qpSvwA",
@@ -23,7 +24,7 @@
    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />  
    <script type="text/javascript">  
     var uiConfig = {  
-     signInSuccessUrl: 'loggedIn.html',  
+     signInSuccessUrl: 'test1.html',  
      signInOptions: [  
       // Specify providers you want to offer your users.  
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,  
