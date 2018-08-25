@@ -1146,7 +1146,8 @@ for name in names:
     else:
         print "Wrong number of PRs for ", name
         continue
-
+    print name
+    print scores6k['Name']==name
     print scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[0]
     try:
         times = scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[0].apply(
