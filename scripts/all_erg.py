@@ -1049,7 +1049,6 @@ for name in names:
         print "There was a problem with the number of 30min PRs for ", name
         continue
 
-    print scores30.loc[name_loc,['10min','20min','30min','AveSplit']].iloc[0]
     try:
         times = scores30.loc[name_loc,['10min','20min','30min','AveSplit']].iloc[0].apply(
                                                                             lambda x: convert_split(x))
@@ -1148,6 +1147,7 @@ for name in names:
         print "Wrong number of PRs for ", name
         continue
 
+    print scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[0]
     try:
         times = scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[0].apply(
                                                                                                         lambda x: convert_split(x))
