@@ -559,7 +559,7 @@ scores2k = pd.read_csv(
     parse_dates = [0],
     infer_datetime_format = True
     )
-scores2k = scores2k.dropna()
+scores2k = scores2k.dropna(how="all")
 
 # sort Names and Date
 scores2k = scores2k.sort_values(by=['Name', 'Timestamp'])
@@ -1145,20 +1145,28 @@ for name in names:
         date = scores6k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime().date()).tolist()
     else:
         print "Wrong number of PRs for ", name
-        continue
-    print name
-    print scores6k['Name']==name
-    print scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[0]
+        continue    
+
     try:
-        times = scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[0].apply(
-                                                                                                        lambda x: convert_split(x))
+        if scores6k.loc[name_loc,['4000m / 4800m']].iloc[0].isnull().any(): #2000m...because Suhm was dumb
+            distance_interval = [2000,4000,6000]
+            times = scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m','AveSplit']].iloc[0].apply(
+                                                                                                                    lambda x: convert_split(x))
+        elif scores6k.loc[name_loc,['6000m / _']].iloc[0].isnull().any():
+            distance_interval = [1200,2400,3600,4800,6000]
+            times = scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m', '4000m / 4800m', '5000m / 6000m', 'AveSplit']].iloc[0].apply(
+                                                                                                                    lambda x: convert_split(x))
+        else:
+            distance_interval = [1000,2000,3000,4000,5000,6000]
+            times = scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m', '4000m / 4800m', '5000m / 6000m', '6000m / _', 'AveSplit']].iloc[0].apply(
+                                                                                                                    lambda x: convert_split(x))
     except ValueError:
-        print "error with 6km erg test for", name
-        print scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']]
+        print "Error with 6km erg test for", name
+        print scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m', '4000m / 4800m', '5000m / 6000m', '6000m / _', 'AveSplit']].iloc[0]
         continue
 
     trace = go.Scatter(
-        x=[1000,2000,3000,4000,5000,6000],
+        x=distance_interval,#[1000,2000,3000,4000,5000,6000],
         y=times.tolist()[:-1],
         line=dict(
             shape='spline'
@@ -1513,15 +1521,22 @@ for name in names:
         print "Wrong number of PRs for ", name
         continue
 
+    # check to see if 400m interval was submited instead of 500m
     try:
-        times = scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit','CorrSplit']].iloc[0].apply(lambda x: convert_split(x))
+        if scores2k.loc[name_loc,['_ / 2000m']].iloc[0].isnull().any(): #correctly did 500m split
+            distance_interval = [500,1000,1500,2000]
+            times = scores2k.loc[name_loc,['500m / 400m','1000m / 800m','1500m / 1200m', '2000m / 1600m', 'AveSplit']].iloc[0].apply(lambda x: convert_split(x))
+        else:
+            distance_interval = [400,800,1200,1600,2000]
+            times = scores2k.loc[name_loc,['500m / 400m','1000m / 800m','1500m / 1200m', '2000m / 1600m', '_ / 2000m', 'AveSplit']].iloc[0].apply(lambda x: convert_split(x))
     except ValueError:
-        print "error with 6km erg test for", name
-        print scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit','CorrSplit']]
+        print "Error with 2km erg test for", name
+        print scores2k.loc[name_loc,['500m / 400m','1000m / 800m','1500m / 1200m', '2000m / 1600m', '_ / 2000m', 'AveSplit']].iloc[0]
         continue
 
+
     trace = go.Scatter(
-        x=[500,1000,1500,2000],
+        x=distance_interval,#[500,1000,1500,2000],
         y=times.tolist()[:4],
         line=dict(
             shape='spline'
