@@ -30,8 +30,6 @@ names = roster.loc[roster['Active']=='Active'].loc[roster['Side']!='Coxswain','F
 
 print breaker, "Current Roster: \n", len(names), "athletes\n", names
 
-
-
 ####################
 # MISC FUNCTIONS
 ####################
@@ -45,6 +43,13 @@ def convert_split(erg_split):
     a=convert_split(erg_split)
     print(a.strftime('%M:%S.%f')[:-5])
     '''
+    '''# first check if 0 or Nan
+    if (type(erg_split)==float) & (math.isnan(erg_split)):
+        print("value is nan, return nan")
+        return(float("Nan"))
+    else:
+        pass
+    '''
     #split should be string
     erg_min, other = erg_split.split(':')
     erg_sec, erg_Msec = other.split('.')
@@ -52,7 +57,6 @@ def convert_split(erg_split):
     erg_min = int(erg_min)
     erg_sec = int(erg_sec)
     erg_Msec = int(float(erg_Msec)/10.0*1000000)
-
     return(datetime(year=2017,month=1,day=1,minute=erg_min, second=erg_sec, microsecond=erg_Msec))
 
 
@@ -86,11 +90,15 @@ def check_watts(row):
     '''
     Check a row to see if the rower inputed watts.
     If it doesn't see a number it will convert the ave split to watts
+
+    Also check if Watts is 0
     '''
     #if type(row['Watts']) is not int:
     try:
         row['Watts'] = int(row['Watts'])
     except ValueError:
+        row['Watts'] = int(get_watts(row['AveSplit']))
+    if int(row['Watts']) == 0: #not a valid watt, so convert
         row['Watts'] = int(get_watts(row['AveSplit']))
     return row
 
@@ -241,16 +249,27 @@ def plot_6k_intervals(name):
     dates = scores6k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime().date()).tolist()
 
     for i in range(scores6k.loc[name_loc].shape[0]):
+        # check to see if 1200m interval was submited instead of 1000m
         try:
-            times = scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[i].apply(
-                                                                                                                    lambda x: convert_split(x))
+            if scores6k.loc[name_loc,['4000m / 4800m']].iloc[i].isnull().any(): #2000m...because Suhm was dumb
+                distance_interval = [2000,4000,6000]
+                times = scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m','AveSplit']].iloc[i].apply(
+                                                                                                                        lambda x: convert_split(x))
+            elif scores6k.loc[name_loc,['6000m / _']].iloc[i].isnull().any():
+                distance_interval = [1200,2400,3600,4800,6000]
+                times = scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m', '4000m / 4800m', '5000m / 6000m', 'AveSplit']].iloc[i].apply(
+                                                                                                                        lambda x: convert_split(x))
+            else:
+                distance_interval = [1000,2000,3000,4000,5000,6000]
+                times = scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m', '4000m / 4800m', '5000m / 6000m', '6000m / _', 'AveSplit']].iloc[i].apply(
+                                                                                                                        lambda x: convert_split(x))
         except ValueError:
             print "Error with 6km erg test for", name
-            print scores6k.loc[name_loc,['1000m','2000m','3000m', '4000m', '5000m', '6000m', 'AveSplit']].iloc[i]
+            print scores6k.loc[name_loc,['1000m / 1200m','2000m / 2400m','3000m / 3600m', '4000m / 4800m', '5000m / 6000m', '6000m / _', 'AveSplit']].iloc[i]
             continue
 
         trace = go.Scatter(
-            x=[1000,2000,3000,4000,5000,6000],
+            x=distance_interval,
             y=times.tolist()[:-1],
             line=dict(
                 shape='spline'
@@ -364,7 +383,7 @@ for index, row in scores6k.iterrows():
     elif sum(loc) > 1:
         print "THERE IS A DUPLICATE WEIGHT FOR" + weights.loc[loc]
     else:
-        print "Missing weight data for", row['Name'], " on ", row['Date'] 
+        print "Missing weight data for", row['Name'], " on ", row['Date']
         continue
 
 
@@ -580,15 +599,21 @@ def plot_2k_intervals(name):
     dates = scores2k.loc[name_loc,'Timestamp'].apply(lambda x: x.to_datetime().date()).tolist()
 
     for i in range(scores2k.loc[name_loc].shape[0]):
+        # check to see if 400m interval was submited instead of 500m
         try:
-            times = scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit']].iloc[i].apply(lambda x: convert_split(x))
+            if scores2k.loc[name_loc,['_ / 2000m']].iloc[i].isnull().any(): #correctly did 500m split
+                distance_interval = [500,1000,1500,2000]
+                times = scores2k.loc[name_loc,['500m / 400m','1000m / 800m','1500m / 1200m', '2000m / 1600m', 'AveSplit']].iloc[i].apply(lambda x: convert_split(x))
+            else:
+                distance_interval = [400,800,1200,1600,2000]
+                times = scores2k.loc[name_loc,['500m / 400m','1000m / 800m','1500m / 1200m', '2000m / 1600m', '_ / 2000m', 'AveSplit']].iloc[i].apply(lambda x: convert_split(x))
         except ValueError:
             print "Error with 2km erg test for", name
-            print scores2k.loc[name_loc,['500m','1000m','1500m', '2000m', 'AveSplit']].iloc[i]
+            print scores2k.loc[name_loc,['500m / 400m','1000m / 800m','1500m / 1200m', '2000m / 1600m', '_ / 2000m', 'AveSplit']].iloc[i]
             continue
 
         trace = go.Scatter(
-            x=[500,1000,1500,2000],
+            x=distance_interval,
             y=times.tolist()[:-1],
             line=dict(
                 shape='spline'
