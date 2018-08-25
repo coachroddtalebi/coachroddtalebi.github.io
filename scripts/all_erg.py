@@ -1016,7 +1016,7 @@ def plot_golden_curve(name, season):
 # get scores
 for name in names:
     print "\n", name
-    fig = plot_golden_curve(name, "Spring")
+    fig = plot_golden_curve(name, "Fall")
     if fig != 0:
         link = py.plot(fig, filename = name+'-GoldCurve', auto_open=False)
         print tls.get_embed(link)
@@ -1049,6 +1049,7 @@ for name in names:
         print "There was a problem with the number of 30min PRs for ", name
         continue
 
+    print scores30.loc[name_loc,['10min','20min','30min','AveSplit']].iloc[0]
     try:
         times = scores30.loc[name_loc,['10min','20min','30min','AveSplit']].iloc[0].apply(
                                                                             lambda x: convert_split(x))
