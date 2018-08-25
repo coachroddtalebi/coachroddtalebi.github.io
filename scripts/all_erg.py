@@ -1330,7 +1330,7 @@ print tls.get_embed(link)
 # Golden Curves
 print "\nGolden Curves"
 # assume PRs already scored
-season = "Spring" #"Fall"
+season = "Fall"
 traces = []
 for name in names:
 
@@ -1537,7 +1537,7 @@ for name in names:
 
     trace = go.Scatter(
         x=distance_interval,#[500,1000,1500,2000],
-        y=times.tolist()[:4],
+        y=times.tolist()[:-1],
         line=dict(
             shape='spline'
             ),
