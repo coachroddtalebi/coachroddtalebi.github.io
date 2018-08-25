@@ -381,7 +381,7 @@ for index, row in scores6k.iterrows():
         corr_split, _ = corrected(weight=weight, split=split)
         scores6k.loc[index,'CorrSplit'] = corr_split
     elif sum(loc) > 1:
-        print "THERE IS A DUPLICATE WEIGHT FOR" + weights.loc[loc]
+        print "THERE IS A DUPLICATE WEIGHT FOR" + weights.loc[loc,'Name']
     else:
         print "Missing weight data for", row['Name'], " on ", row['Date']
         continue
