@@ -677,6 +677,7 @@ print breaker, "Build Timeline for each rower..."
 
 def plot_intervals(name):
     traces = []
+    have_info = False
 
     # -------------
     # 30min trace
@@ -698,6 +699,8 @@ def plot_intervals(name):
             hovertext = meters
             )
         traces.append(trace)
+
+        have_info = True
     else:
         print "no 30min pieces (Timeline) for " + name
         pass
@@ -721,6 +724,8 @@ def plot_intervals(name):
             hovertext = watts
             )
         traces.append(trace)  
+
+        have_info = True
         
         # -------------
         # 6km   CORRECTED     
@@ -770,6 +775,8 @@ def plot_intervals(name):
             )
         traces.append(trace)
 
+        have_info = True
+
     else:
         print "no 1500m pieces (Timeline) for " + name
         pass
@@ -796,6 +803,8 @@ def plot_intervals(name):
             hovertext = ave
             )
         traces.append(trace)
+
+        have_info = True
     else:
         print "no 4x10min pieces (Timeline) for " + name
         pass
@@ -822,6 +831,8 @@ def plot_intervals(name):
             hovertext = watts
             )
         traces.append(trace)  
+
+        have_info = True
         
         # -------------
         # 2km   CORRECTED     
@@ -842,6 +853,8 @@ def plot_intervals(name):
                 hovertext = watts
                 )
             traces.append(trace)
+
+            have_info = True
         else:
             print "not Corrected 2km data (Timeline) for " + name
             pass        
@@ -868,16 +881,19 @@ def plot_intervals(name):
             )
         )
     
-    return go.Figure(data=traces, layout=layout)
+    return go.Figure(data=traces, layout=layout), have_info
 
 
 ####################
 # get scores
 for name in names:
     print "\n", name
-    fig = plot_intervals(name)
-    link = py.plot(fig, filename = name+'-Timeline', auto_open=False)
-    print tls.get_embed(link)
+    fig, have_info = plot_intervals(name)
+    if have_info:
+        link = py.plot(fig, filename = name+'-Timeline', auto_open=False)
+        print tls.get_embed(link)
+    else:
+        print "there was nothing to plot"
 
 
 
