@@ -1016,7 +1016,7 @@ def plot_golden_curve(name, season):
 # get scores
 for name in names:
     print "\n", name
-    fig = plot_golden_curve(name, "Fall")
+    fig = plot_golden_curve(name, "Spring") #which season it currently is
     if fig != 0:
         link = py.plot(fig, filename = name+'-GoldCurve', auto_open=False)
         print tls.get_embed(link)
